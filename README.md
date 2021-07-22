@@ -7,7 +7,7 @@
 ## install the required dependencies  [node, golang] on system -- 
     make init
 
-#if you get any error try to execute step line by line
+#if you get any error try to execute step line by line from makefile:line 10
 
 
 # start the application
