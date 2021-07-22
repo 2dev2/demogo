@@ -1,4 +1,4 @@
-# demogo
+# This is one go chat server application written using golang and react [ using websocket not the latest http3/web-transport]
 
 
 ######clone the repo
