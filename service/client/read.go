@@ -1,8 +1,7 @@
 package client
 
 import (
-	"fmt"
-	"github.com/2dev2/demogo/message"
+	"github.com/2dev2/demogo/service/message"
 	"log"
 )
 
@@ -14,7 +13,7 @@ func (c *Client) Read(p *Pool) {
 
 	for {
 		messageType, body, err := c.Conn.ReadMessage()
-		fmt.Print("got the nre Messages from socket")
+		log.Print("got the nre Messages from socket")
 		if err != nil {
 			log.Println(err)
 			return
@@ -22,6 +21,6 @@ func (c *Client) Read(p *Pool) {
 
 		m := message.Message{Type: messageType,ID:c.ID, Body: string(body)}
 		p.Broadcast <- m
-		fmt.Printf("Message Received: %+v\n", m)
+		log.Printf("Message Received: %+v\n", m)
 	}
 }

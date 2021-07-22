@@ -2,8 +2,8 @@ package routes
 
 import (
 	"fmt"
-	"github.com/2dev2/demogo/client"
-	"github.com/2dev2/demogo/server"
+	"github.com/2dev2/demogo/service/client"
+	"github.com/2dev2/demogo/service/server"
 	"net/http"
 )
 

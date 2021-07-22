@@ -36,4 +36,9 @@ app:
 	go mod tidy
 	go run ./bin/main.go
 
+#when you want to deploy application locally/server and assuming one time  [ make app ] has been run
+.PHONY: app
+deploy:
+	go run ./bin/main.go
+
 

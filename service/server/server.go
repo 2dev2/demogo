@@ -2,7 +2,7 @@ package server
 
 import (
 	"fmt"
-	"github.com/2dev2/demogo/client"
+	"github.com/2dev2/demogo/service/client"
 	"log"
 	"net/http"
 	"strconv"

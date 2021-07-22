@@ -1,19 +1,17 @@
 package main
 
 import (
-	"fmt"
-	"github.com/2dev2/demogo/routes"
-	"github.com/2dev2/demogo/service"
+	"github.com/2dev2/demogo/service/logger"
+	"github.com/2dev2/demogo/service/routes"
 	"log"
 	"net/http"
 )
 
 func main(){
 
+	log.SetFlags(0)
+	log.SetOutput(logger.LogWriter{})
 
 	routes.SetupRoutes()
-	svc:=service.NewSvc()
-	fmt.Print(svc)
-	fmt.Print("dev")
 	log.Fatal(http.ListenAndServe(":5555", nil))
 }

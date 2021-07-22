@@ -1,8 +1,8 @@
 package client
 
 import (
-	"fmt"
-	"github.com/2dev2/demogo/message"
+	"github.com/2dev2/demogo/service/message"
+	"log"
 )
 
 type Pool struct {
@@ -33,24 +33,26 @@ func (p *Pool) Start() {
 		select {
 		case newClient := <-p.Register:
 			p.clients[newClient] = true
-			fmt.Println("Size of Connection Pool: ", len(p.clients))
+			log.Println("Size of Connection Pool: ", len(p.clients))
 			for c, _ := range p.clients {
-				fmt.Println(c)
-				c.Conn.WriteJSON(message.Message{Type: 1,ID:newClient.ID, Body: "New User Joined..."})
+				m:=message.Message{Type: 1,ID:newClient.ID, Body: "New User Joined..."}
+				log.Println(m)
+				c.Conn.WriteJSON(m)
 			}
 			break
 		case leftClient := <-p.Unregister:
 			delete(p.clients, leftClient)
-			fmt.Println("Size of Connection Pool: ", len(p.clients))
+			log.Println("Size of Connection Pool: ", len(p.clients))
 			for c, _ := range p.clients {
-				c.Conn.WriteJSON(message.Message{Type: 1, ID:leftClient.ID,Body: "User Disconnected..."})
+				m:=message.Message{Type: 1, ID:leftClient.ID,Body: "User Disconnected..."}
+				c.Conn.WriteJSON(m)
 			}
 			break
 		case m := <-p.Broadcast:
-			fmt.Println("Sending message to all clients in Pool")
+			log.Println("Sending message to all clients in Pool")
 			for c, _ := range p.clients {
 				if err := c.Conn.WriteJSON(m); err != nil {
-					fmt.Println(err)
+					log.Println(err)
 					return
 				}
 			}
