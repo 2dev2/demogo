@@ -57,6 +57,8 @@ func main(){
 	wg.Wait()
 	fmt.Print("============ consumer Done========")
 	fmt.Print("** result **")
+
+	//handle the multi separated word by While space separator them and put count of math Then intersection the  two list
 	for k,v:=range dict{
 		if k==inputWord{
 			result = v
