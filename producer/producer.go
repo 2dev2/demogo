@@ -45,7 +45,7 @@ func(c *producer) Produce(url string){
 			fmt.Print("got error when fetching")
 			return
 		}
-		c.parser.Parse(string(body),url)
+		go c.parser.Parse(string(body),url)
 	}
 	//else{
 	//	c.parser.Parse(string(url),url)

@@ -4,12 +4,11 @@ import (
 	"context"
 	"fmt"
 	consumer2 "github.com/2dev2/demogo/consumer"
-	"github.com/2dev2/demogo/producer"
 	parser2 "github.com/2dev2/demogo/parser"
+	"github.com/2dev2/demogo/producer"
 	"github.com/2dev2/demogo/reader"
-	"time"
-
 	"sync"
+	"time"
 )
 
 func main(){
@@ -28,11 +27,11 @@ func main(){
 	}()
 
 
-
+	dict:=map[string][]string{}
 	parser:=parser2.NewWhileSpaceSeparatorParser(words)
 	producer:= producer.NewProducer(urls,parser)
-	consumer:= consumer2.NewConsumer(words,urls)
-	dict:=map[string][]string{}
+	consumer:= consumer2.NewConsumer(words,urls,dict)
+
 	var wg sync.WaitGroup
 	producerDone:=make(chan int)
 
@@ -48,15 +47,20 @@ func main(){
 		}
 	}()
 	wg.Add(1)
-	go consumer.Worker(ctx,&wg,dict,mutex)
+	go consumer.Worker(ctx,&wg,mutex)
 	<-producerDone
-	time.Sleep(200*time.Second) //this is hard limit for now we will check the result later
+	go func(){
+		//wait max 20 Seconds we should be configuring this
+		time.Sleep(20*time.Second)
+		cancel()
+	}()
+	//time.Sleep(200*time.Second) //this is hard limit for now we will check the result later
 	fmt.Print("============ producerDone Done========")
-	cancel()
+
 	//producer.Close()
 	wg.Wait()
 	fmt.Print("============ consumer Done========")
-	fmt.Print("** result **")
+	fmt.Print("   ** result **    ")
 
 	//handle the multi separated word by While space separator them and put count of math Then intersection the  two list
 	for k,v:=range dict{
